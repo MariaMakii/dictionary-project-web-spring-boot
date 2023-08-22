@@ -1,0 +1,86 @@
+h1 {
+    font-family: sans-serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    text-align: center;
+    z-index: 5;
+}
+
+strong {
+    font-weight: 700;
+    background-color: yellow;
+}
+
+.subheader {
+    font-family: sans-serif;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+p {
+    font-family: sans-serif;
+}
+
+.block {
+    border: 3px solid;
+    border-radius: 1em;
+    margin: auto;
+    width: fit-content;
+    padding: 10px;
+    align-items: center;
+    background-color: #d1b0ff;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    margin: 3px;
+}
+
+.words {
+    position: fixed;
+    left: 0;
+    top: 4em;
+    width: 60%;
+    height: 100%;
+    color: #000;
+    overflow: auto;
+}
+
+.forms {
+    position: fixed;
+    right: 0;
+    top: 4em;
+    width: 40%;
+    height: 100%;
+    color: #111;
+    overflow: auto;
+}
+
+.rightBorder {
+    border-left-style: solid;
+    border-left-color: black;
+    border-width: 1px;
+}
+
+
+.formContainer {
+    margin: 10px;
+    border-radius: 1em;
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.wordContainer {
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Словарный менеджер</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}"/>
+</head>
+<body>
+<h1>Добро пожаловать в Словарный менеджер!!</h1>
+<p class="subheader">Выберите словарь из списка ниже:</p>
+<div class="block">
+    <div class="list" th:each="d : ${dictionaries}">
+        <a th:href="@{/dictionary(dictionaryId=${d.getId()})}"
+        >
+            <button class="btn btn-default button" type="button" th:text="${d.getTitle()}"> some button text
+            </button>
+        </a>
+    </div>
+</div>
+</body>
+</html>

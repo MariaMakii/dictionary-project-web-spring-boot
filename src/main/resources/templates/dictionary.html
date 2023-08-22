@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Словарь</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}"/>
+</head>
+<body>
+
+<h1 th:value="${dictionaryName}" th:text="'&#171;' + ${dictionaryName} + '&#187;'"></h1>
+<div class="words">
+    <a th:href="@{/}" class="btn btn-success" style="margin-left: 15px"><--- Назад</a>
+    </br>
+    </br>
+    <div class="wordContainer" th:each="note : ${notes}">
+        <form action="#" th:action="@{/deleteWord(word = ${note.getWord()}, dictionaryId = ${dictionaryId})}"
+              th:method="DELETE">
+            <input type="hidden" name="_method" value="delete"/>
+            <button class="btn btn-danger" type="submit" id="submitButton">x</button>
+        </form>
+        <p style="list-style-type: none" th:text="|${note.word} - ${note.definition}|"></p>
+    </div>
+</div>
+
+<div class="forms rightBorder">
+    <h1>Добавить слово</h1>
+    <div class="formContainer">
+        <form th:method="POST"
+              th:action="@{/addWord(dictionaryId=${dictionaryId})}"
+              th:object="${note}">
+            <label for="word">Введите слово:</label>
+            <input th:pattern="${validator}" th:required="true" type="text" id="word" th:field="*{word}">
+            </br>
+            <label for="def">Введите определение:</label>
+            <input th:required="true" type="text" id="def" th:field="*{definition}">
+            </br>
+            <input type="submit" value="Добавить">
+        </form>
+    </div>
+
+    <h1>Искать слово</h1>
+    <div class="formContainer">
+        <form action="#"
+              th:method="GET"
+              th:action="@{/findDefinition}"
+              th:object="${foundDefinition}">
+            <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
+            <label for="findWord">Введите слово:</label>
+            <input th:required="true" type="text" id="findWord" th:field="*{word}">
+            </br>
+            <label for="defFound">Определение:</label>
+            <textarea th:rows="5" readonly id="defFound" th:field="*{definition}"></textarea>
+            </br>
+            <input type="submit" value="Поиск">
+        </form>
+    </div>
+</div>
+</body>
+</html>
