@@ -1,14 +1,10 @@
 package dictionary;
 
-import dictionary.mvc.model.entities.Dictionary;
-import dictionary.mvc.model.repositories.DictionaryRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CharacterEncodingFilter;
-
-import java.util.List;
 
 // то же самое что и
 // @Configuration @EnableAutoConfiguration @ComponentScan

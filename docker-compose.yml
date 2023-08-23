@@ -1,0 +1,30 @@
+version: "3.1"
+services:
+  dictionary-app:
+    container_name: dictionary-app
+    build: .
+    ports:
+      - "8000:8080"
+
+  pgdb:
+    image: postgres
+    container_name: postgres_container
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - .:/postgres_data/data
+    environment:
+      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: postgres
+      POSTGRES_DB: dictionary
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: themarymakii@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
