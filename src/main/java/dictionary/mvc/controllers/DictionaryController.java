@@ -33,6 +33,8 @@ public class DictionaryController {
     public String goToDictionary(@RequestParam Integer dictionaryId,
                                  @RequestParam(value = "foundWord", required = false) String foundWord,
                                  @RequestParam(value = "foundDefinition", required = false) String foundDefinition,
+                                 @RequestParam(value = "searchedDefinition", required = false) String searchedDefinition,
+                                 @RequestParam(value = "foundWords", required = false) String foundWords,
                                  Model model) {
         Dictionary dictionary = dictionaryService.getDictionary(dictionaryId);
         model.addAttribute("dictionaryId", dictionaryId);
@@ -47,6 +49,8 @@ public class DictionaryController {
             note.setDefinition(foundDefinition);
         }
         model.addAttribute("foundDefinition", note);
+        model.addAttribute("searchedDefinition", searchedDefinition);
+        model.addAttribute("foundWords", foundWords);
 
         return "dictionary";
     }
@@ -66,7 +70,7 @@ public class DictionaryController {
 
     @GetMapping("/findDefinition")
     public String findDefinition(@RequestParam Integer dictionaryId, @RequestParam String word) {
-        List<Note> notes = noteService.findNote(word);
+        List<Note> notes = noteService.findNote(word, dictionaryId);
         String result;
         if (notes.isEmpty()) {
             result = "Definition not found.";
@@ -74,5 +78,17 @@ public class DictionaryController {
             result = notes.stream().map(Note::getDefinition).collect(Collectors.joining(", "));
         }
         return "redirect:/dictionary?dictionaryId=" + dictionaryId + "&foundWord=" + word + "&foundDefinition=" + result;
+    }
+
+    @GetMapping("/findWord")
+    public String findWord(@RequestParam Integer dictionaryId, @RequestParam String searchedDefinition) {
+        List<Note> notes = noteService.findNoteByDefinition(searchedDefinition, dictionaryId);
+        String result;
+        if (notes.isEmpty()) {
+            result = "Words not found.";
+        } else {
+            result = notes.stream().map(Note::getWord).collect(Collectors.joining(", "));
+        }
+        return "redirect:/dictionary?dictionaryId=" + dictionaryId + "&searchedDefinition=" + searchedDefinition + "&foundWords=" + result;
     }
 }

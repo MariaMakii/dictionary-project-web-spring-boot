@@ -40,7 +40,7 @@
         </form>
     </div>
 
-    <h1>Искать слово</h1>
+    <h1>Искать определение</h1>
     <div class="formContainer">
         <form action="#"
               th:method="GET"
@@ -52,6 +52,22 @@
             </br>
             <label for="defFound">Определение:</label>
             <textarea th:rows="5" readonly id="defFound" th:field="*{definition}"></textarea>
+            </br>
+            <input type="submit" value="Поиск">
+        </form>
+    </div>
+
+    <h1>Искать слово</h1>
+    <div class="formContainer">
+        <form
+              th:method="GET"
+              th:action="@{/findWord}">
+            <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
+            <label for="findWord">Введите определение:</label>
+            <input th:required="true" type="text" name="searchedDefinition" th:value="${searchedDefinition}" id="searched">
+            </br>
+            <label for="foundWords">Слова:</label>
+            <input th:rows="5" readonly name="foundWords" th:value="${foundWords}" id="foundWords"></input>
             </br>
             <input type="submit" value="Поиск">
         </form>

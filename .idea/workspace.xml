@@ -10,16 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8969d2e4-4a1f-4369-adb7-04cfbb967dd8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/dictionary_project_spring_boot_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controllers/DictionaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controllers/DictionaryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/repositories/NoteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/repositories/NoteRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/services/NoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/services/NoteService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/dictionary.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/dictionary.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +60,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/dictionary-project-web",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -132,7 +130,10 @@
       <workItem from="1692686043491" duration="3923000" />
       <workItem from="1692691794907" duration="460000" />
       <workItem from="1692692269007" duration="4710000" />
-      <workItem from="1692772104787" duration="5823000" />
+      <workItem from="1692772104787" duration="11924000" />
+      <workItem from="1692858994943" duration="2653000" />
+      <workItem from="1692882148872" duration="1865000" />
+      <workItem from="1692944338683" duration="4888000" />
     </task>
     <servers />
   </component>

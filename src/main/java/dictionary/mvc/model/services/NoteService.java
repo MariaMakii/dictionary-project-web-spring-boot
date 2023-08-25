@@ -36,7 +36,11 @@ public class NoteService {
         repository.deleteByWord(word);
     }
 
-    public List<Note> findNote(String word){
-        return repository.findNoteByWord(word);
+    public List<Note> findNote(String word, int dictionary){
+        return repository.findNoteByWord(word, dictionary);
+    }
+
+    public List<Note> findNoteByDefinition(String definition, int dictionary){
+        return repository.findNoteByDefinition(definition, dictionary);
     }
 }
