@@ -21,16 +21,6 @@ p {
     font-family: sans-serif;
 }
 
-.block {
-    border: 3px solid;
-    border-radius: 1em;
-    margin: auto;
-    width: fit-content;
-    padding: 10px;
-    align-items: center;
-    background-color: #d1b0ff;
-}
-
 .list {
     display: flex;
     flex-direction: column;
@@ -81,6 +71,28 @@ p {
     display: flex;
     flex-direction: row;
     gap: 5px;
+}
+
+.block {
+    border: 3px solid;
+    border-radius: 1em;
+    margin: auto;
+    width: fit-content;
+    padding: 10px;
+    align-items: center;
+    background-color: #d1b0ff;
+}
+
+.art{
+    position: absolute;
+    background-color: #67fde2;
+    z-index: 1000;
+}
+
+.button_holder{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 
 

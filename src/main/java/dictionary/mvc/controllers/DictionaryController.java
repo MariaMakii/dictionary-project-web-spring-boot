@@ -35,6 +35,8 @@ public class DictionaryController {
                                  @RequestParam(value = "foundDefinition", required = false) String foundDefinition,
                                  @RequestParam(value = "searchedDefinition", required = false) String searchedDefinition,
                                  @RequestParam(value = "foundWords", required = false) String foundWords,
+                                 @RequestParam(value = "edit", required = false) boolean edit,
+                                 @RequestParam(value = "editId", required = false) Integer editId,
                                  Model model) {
         Dictionary dictionary = dictionaryService.getDictionary(dictionaryId);
         model.addAttribute("dictionaryId", dictionaryId);
@@ -42,6 +44,17 @@ public class DictionaryController {
         model.addAttribute("validator", validatorService.getValidator(dictionary.getType()).getRegex());
         model.addAttribute("notes", noteService.getAll(dictionaryId));
         model.addAttribute("note", new Note());
+        model.addAttribute("edit", edit);
+        model.addAttribute("editId", editId);
+
+        if (editId != null) {
+            Note note = noteService.getById(editId);
+            model.addAttribute("editedWord", note.getWord());
+            model.addAttribute("editedDefinition", note.getDefinition());
+        } else {
+            model.addAttribute("editedWord", "");
+            model.addAttribute("editedDefinition", "");
+        }
 
         Note note = new Note();
         if (foundWord != null) {
@@ -63,8 +76,8 @@ public class DictionaryController {
     }
 
     @DeleteMapping("/deleteWord")
-    public String deleteWord(@RequestParam Integer dictionaryId, @RequestParam String word) {
-        noteService.delete(word);
+    public String deleteWord(@RequestParam Integer dictionaryId, @RequestParam int noteId) {
+        noteService.delete(noteId);
         return "redirect:/dictionary?dictionaryId=" + dictionaryId;
     }
 
@@ -81,8 +94,13 @@ public class DictionaryController {
     }
 
     @GetMapping("/findWord")
-    public String findWord(@RequestParam Integer dictionaryId, @RequestParam String searchedDefinition) {
-        List<Note> notes = noteService.findNoteByDefinition(searchedDefinition, dictionaryId);
+    public String findWord(@RequestParam Integer dictionaryId, @RequestParam String searchedDefinition, @RequestParam(required = false) boolean allDictionaries) {
+        List<Note> notes;
+        if (allDictionaries) {
+            notes = noteService.findNoteByDefinition(searchedDefinition);
+        } else {
+            notes = noteService.findNoteByDefinition(searchedDefinition, dictionaryId);
+        }
         String result;
         if (notes.isEmpty()) {
             result = "Words not found.";
@@ -90,5 +108,27 @@ public class DictionaryController {
             result = notes.stream().map(Note::getWord).collect(Collectors.joining(", "));
         }
         return "redirect:/dictionary?dictionaryId=" + dictionaryId + "&searchedDefinition=" + searchedDefinition + "&foundWords=" + result;
+    }
+
+    @GetMapping("/openEditor")
+    public String editWord(@RequestParam Integer dictionaryId, @RequestParam int editId) {
+        return "redirect:/dictionary?dictionaryId=" + dictionaryId + "&edit=" + true + "&editId=" + editId;
+    }
+
+    @PostMapping(value = "/edit", params = "action=save")
+    public String editSave(@RequestParam Integer dictionaryId, @RequestParam int noteId, @RequestParam String editedDefinition, @RequestParam String editedWord, @RequestParam String action) {
+        noteService.update(noteId, editedWord, editedDefinition);
+        return "redirect:/dictionary?dictionaryId=" + dictionaryId;
+    }
+
+    @PostMapping(value = "/edit", params = "action=cancel")
+    public String editCancel(@RequestParam Integer dictionaryId, @RequestParam String action) {
+        return "redirect:/dictionary?dictionaryId=" + dictionaryId;
+    }
+
+    @PostMapping(value = "/edit")
+    public String edit() {
+        System.out.println("HERE");
+        return null;
     }
 }

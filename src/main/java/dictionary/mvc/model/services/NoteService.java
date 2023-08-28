@@ -27,6 +27,10 @@ public class NoteService {
         return repository.findNotesByDictionary(dictionary);
     }
 
+    public Note getById(int id) {
+        return repository.getNoteById(id);
+    }
+
     public void delete(int id) {
         repository.deleteById(id);
     }
@@ -36,11 +40,20 @@ public class NoteService {
         repository.deleteByWord(word);
     }
 
-    public List<Note> findNote(String word, int dictionary){
+    @Transactional
+    public void update(int id, String word, String definition) {
+        repository.update(id, word, definition);
+    }
+
+    public List<Note> findNote(String word, int dictionary) {
         return repository.findNoteByWord(word, dictionary);
     }
 
-    public List<Note> findNoteByDefinition(String definition, int dictionary){
+    public List<Note> findNoteByDefinition(String definition, int dictionary) {
         return repository.findNoteByDefinition(definition, dictionary);
+    }
+
+    public List<Note> findNoteByDefinition(String definition) {
+        return repository.findNoteByDefinition(definition);
     }
 }

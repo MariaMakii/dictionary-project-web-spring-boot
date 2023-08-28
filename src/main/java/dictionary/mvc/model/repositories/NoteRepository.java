@@ -23,4 +23,14 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
 
     @Query("FROM Note WHERE definition LIKE CONCAT('%', ?1, '%') AND dictionary = ?2")
     List<Note> findNoteByDefinition(String definition, int dictionary);
+
+    @Query("FROM Note WHERE definition LIKE CONCAT('%', ?1, '%')")
+    List<Note> findNoteByDefinition(String definition);
+
+    @Query("FROM Note WHERE id = ?1")
+    Note getNoteById(int id);
+
+    @Modifying
+    @Query("UPDATE Note SET word = ?2, definition = ?3 WHERE id = ?1")
+    void update(int id, String word, String definition);
 }

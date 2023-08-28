@@ -15,10 +15,18 @@
     </br>
     </br>
     <div class="wordContainer" th:each="note : ${notes}">
-        <form action="#" th:action="@{/deleteWord(word = ${note.getWord()}, dictionaryId = ${dictionaryId})}"
+        <form action="#"
+              th:action="@{/deleteWord(word = ${note.getWord()}, noteId = ${note.getId()}, dictionaryId = ${dictionaryId})}"
               th:method="DELETE">
             <input type="hidden" name="_method" value="delete"/>
-            <button class="btn btn-danger" type="submit" id="submitButton">x</button>
+            <button class="btn btn-danger" type="submit" id="delete">x</button>
+        </form>
+
+        <form action="#" th:action="@{/openEditor}"
+              th:method="GET">
+            <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
+            <input hidden="hidden" type="text" name="editId" th:value="${note.getId()}">
+            <button class="btn btn-success" type="submit" id="edit">edit</button>
         </form>
         <p style="list-style-type: none" th:text="|${note.word} - ${note.definition}|"></p>
     </div>
@@ -42,10 +50,10 @@
 
     <h1>Искать определение</h1>
     <div class="formContainer">
-        <form action="#"
-              th:method="GET"
-              th:action="@{/findDefinition}"
-              th:object="${foundDefinition}">
+        <form
+                th:method="GET"
+                th:action="@{/findDefinition}"
+                th:object="${foundDefinition}">
             <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
             <label for="findWord">Введите слово:</label>
             <input th:required="true" type="text" id="findWord" th:field="*{word}">
@@ -57,21 +65,48 @@
         </form>
     </div>
 
-    <h1>Искать слово</h1>
+    <h1>Искать слово по определению</h1>
     <div class="formContainer">
         <form
-              th:method="GET"
-              th:action="@{/findWord}">
+                th:method="GET"
+                th:action="@{/findWord}">
             <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
+            <label for="allDictionaries">Искать во всех словарях:</label>
+            <input type="checkbox" name="allDictionaries" id="allDictionaries">
+            </br>
             <label for="findWord">Введите определение:</label>
-            <input th:required="true" type="text" name="searchedDefinition" th:value="${searchedDefinition}" id="searched">
+            <input th:required="true" type="text" name="searchedDefinition" th:value="${searchedDefinition}"
+                   id="searched">
             </br>
             <label for="foundWords">Слова:</label>
-            <input th:rows="5" readonly name="foundWords" th:value="${foundWords}" id="foundWords"></input>
+            <input readonly name="foundWords" th:value="${foundWords}" id="foundWords">
             </br>
             <input type="submit" value="Поиск">
         </form>
     </div>
+</div>
+
+
+<div class="block art" id="exampleModalCenter" th:hidden="${!edit}">
+    <h1>Редактирование</h1>
+    <form th:action="@{/edit}" th:method="POST">
+        <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
+        <input hidden="hidden" type="text" name="noteId" th:value="${editId}">
+        <label for="editedWord">Слово</label>
+        <input type="text" name="editedWord" id="editedWord" th:value="${editedWord}">
+        <label for="editedDefinition">Определение</label>
+        <input type="text" name="editedDefinition" id="editedDefinition" th:value="${editedDefinition}">
+        </br>
+
+        <div class="button_holder">
+            <button name="action" value="save" type="submit" class="btn btn-primary">
+                Сохранить
+            </button>
+            <button name="action" value="cancel" type="submit" class="btn btn-primary">
+                Отмена
+            </button>
+        </div>
+    </form>
 </div>
 </body>
 </html>
