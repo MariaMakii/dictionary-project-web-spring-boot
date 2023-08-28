@@ -92,7 +92,7 @@
         <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
         <input hidden="hidden" type="text" name="noteId" th:value="${editId}">
         <label for="editedWord">Слово</label>
-        <input type="text" name="editedWord" id="editedWord" th:value="${editedWord}">
+        <input th:pattern="${validator}" type="text" name="editedWord" id="editedWord" th:value="${editedWord}" th:title="${validator}">
         <label for="editedDefinition">Определение</label>
         <input type="text" name="editedDefinition" id="editedDefinition" th:value="${editedDefinition}">
         </br>

@@ -17,14 +17,6 @@
             <option th:each="d : ${dictionaries}" th:text="${d.getTitle()}" th:value="${d.getId()}"></option>
         </select>
     </label>
-
-    <!--    <div class="list" th:each="d : ${dictionaries}">-->
-    <!--        <a th:href="@{/dictionary(dictionaryId=${d.getId()})}"-->
-    <!--        >-->
-    <!--            <button class="btn btn-default button" type="button" th:text="${d.getTitle()}"> some button text-->
-    <!--            </button>-->
-    <!--        </a>-->
-    <!--    </div>-->
 </div>
 </body>
 </html>
