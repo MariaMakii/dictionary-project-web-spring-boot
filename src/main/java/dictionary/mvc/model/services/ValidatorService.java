@@ -2,20 +2,13 @@ package dictionary.mvc.model.services;
 
 import dictionary.mvc.model.entities.Validator;
 import dictionary.mvc.model.repositories.ValidatorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ValidatorService {
-
-    @Autowired
-    private ValidatorRepository repository;
-
-    public ValidatorService(){
-
-    }
+    private final ValidatorRepository repository;
 
     public ValidatorService(ValidatorRepository repository) {
         this.repository = repository;

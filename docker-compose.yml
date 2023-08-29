@@ -1,14 +1,14 @@
 version: "3.1"
 services:
   dictionary-app:
-    container_name: dictionary-app
+    container_name: dictionary-app-v2
     build: .
     ports:
       - "8000:8080"
 
   pgdb:
     image: postgres
-    container_name: postgres_container
+    container_name: postgres_container_v2
     restart: always
     ports:
       - "5432:5432"
@@ -21,7 +21,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin_container
+    container_name: pgadmin_container_v2
     restart: always
     ports:
       - "5050:80"

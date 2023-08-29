@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface DictionaryRepository extends JpaRepository<Dictionary, Integer> {
 
     @Query("FROM Dictionary WHERE id = ?1")
-    public Dictionary findDictionaryById(Integer id);
+    Dictionary findDictionaryById(Integer id);
 }

@@ -36,7 +36,7 @@
     <h1>Добавить слово</h1>
     <div class="formContainer">
         <form th:method="POST"
-              th:action="@{/addWord(dictionaryId=${dictionaryId})}"
+              th:action="@{/addWord}"
               th:object="${note}">
             <label for="word">Введите слово:</label>
             <input th:pattern="${validator}" th:required="true" type="text" id="word" th:field="*{word}">
@@ -90,11 +90,12 @@
     <h1>Редактирование</h1>
     <form th:action="@{/edit}" th:method="POST">
         <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
-        <input hidden="hidden" type="text" name="noteId" th:value="${editId}">
+        <input hidden="hidden" type="text" name="editedNoteId" th:value="${editedNoteId}">
         <label for="editedWord">Слово</label>
-        <input th:pattern="${validator}" type="text" name="editedWord" id="editedWord" th:value="${editedWord}" th:title="${validator}">
+        <input th:pattern="${validator}" type="text" name="editableNote" id="editedWord" th:value="${editableNote}"
+               th:title="${validator}">
         <label for="editedDefinition">Определение</label>
-        <input type="text" name="editedDefinition" id="editedDefinition" th:value="${editedDefinition}">
+        <input type="text" name="editableDefinition" id="editedDefinition" th:value="${editableDefinition}">
         </br>
 
         <div class="button_holder">

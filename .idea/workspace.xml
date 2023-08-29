@@ -10,7 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8969d2e4-4a1f-4369-adb7-04cfbb967dd8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/dto/DictionaryPageDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controllers/DictionaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controllers/DictionaryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controllers/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controllers/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/repositories/DictionaryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/repositories/DictionaryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/services/ValidatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/services/ValidatorService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/dictionary.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/dictionary.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
     </list>
@@ -24,9 +31,9 @@
       <list>
         <option value="Kotlin Enum" />
         <option value="HTML File" />
-        <option value="Class" />
         <option value="Interface" />
         <option value="CSS File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -132,7 +139,8 @@
       <workItem from="1692944338683" duration="10587000" />
       <workItem from="1692975238478" duration="993000" />
       <workItem from="1693204040505" duration="8330000" />
-      <workItem from="1693215492719" duration="413000" />
+      <workItem from="1693215492719" duration="3869000" />
+      <workItem from="1693291129869" duration="9031000" />
     </task>
     <servers />
   </component>

@@ -1,12 +1,12 @@
 package dictionary.mvc.controllers;
 
+import dictionary.mvc.dto.DictionaryPageDTO;
 import dictionary.mvc.model.entities.Dictionary;
 import dictionary.mvc.model.entities.Note;
 import dictionary.mvc.model.services.DictionaryService;
-import dictionary.mvc.model.services.DictionaryTypeService;
 import dictionary.mvc.model.services.NoteService;
 import dictionary.mvc.model.services.ValidatorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,73 +16,69 @@ import java.util.stream.Collectors;
 
 @Controller
 public class DictionaryController {
+    private final DictionaryService dictionaryService;
 
-    @Autowired
-    DictionaryService dictionaryService;
+    private final NoteService noteService;
 
-    @Autowired
-    NoteService noteService;
+    private final ValidatorService validatorService;
 
-    @Autowired
-    ValidatorService validatorService;
+    private final DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
 
-    @Autowired
-    DictionaryTypeService dictionaryTypeService;
+    public DictionaryController(DictionaryService dictionaryService, NoteService noteService, ValidatorService validatorService) {
+        this.dictionaryService = dictionaryService;
+        this.noteService = noteService;
+        this.validatorService = validatorService;
+    }
 
-    @GetMapping("/dictionary")
-    public String goToDictionary(@RequestParam Integer dictionaryId,
-                                 @RequestParam(value = "foundWord", required = false) String foundWord,
-                                 @RequestParam(value = "foundDefinition", required = false) String foundDefinition,
-                                 @RequestParam(value = "searchedDefinition", required = false) String searchedDefinition,
-                                 @RequestParam(value = "foundWords", required = false) String foundWords,
-                                 @RequestParam(value = "edit", required = false) boolean edit,
-                                 @RequestParam(value = "editId", required = false) Integer editId,
-                                 Model model) {
+    @GetMapping("/dictionary/{id}")
+    public String goToDictionary(@PathVariable(name = "id") Integer dictionaryId, Model model) {
+        dictionaryPageDTO.setDictionaryId(dictionaryId);
         Dictionary dictionary = dictionaryService.getDictionary(dictionaryId);
         model.addAttribute("dictionaryId", dictionaryId);
         model.addAttribute("dictionaryName", dictionary.getTitle());
         model.addAttribute("validator", validatorService.getValidator(dictionary.getType()).getRegex());
         model.addAttribute("notes", noteService.getAll(dictionaryId));
         model.addAttribute("note", new Note());
-        model.addAttribute("edit", edit);
-        model.addAttribute("editId", editId);
+        model.addAttribute("edit", dictionaryPageDTO.isEdition());
+        model.addAttribute("editedNoteId", dictionaryPageDTO.getEditedNoteId());
 
-        if (editId != null) {
-            Note note = noteService.getById(editId);
-            model.addAttribute("editedWord", note.getWord());
-            model.addAttribute("editedDefinition", note.getDefinition());
+        if (dictionaryPageDTO.getEditedNoteId() != null) {
+            Note note = noteService.getById(dictionaryPageDTO.getEditedNoteId());
+            model.addAttribute("editableNote", note.getWord());
+            model.addAttribute("editableDefinition", note.getDefinition());
         } else {
             model.addAttribute("editedWord", "");
             model.addAttribute("editedDefinition", "");
         }
 
         Note note = new Note();
-        if (foundWord != null) {
-            note.setWord(foundWord);
-            note.setDefinition(foundDefinition);
+        if (dictionaryPageDTO.getFoundWord() != null) {
+            note.setWord(dictionaryPageDTO.getFoundWord());
+            note.setDefinition(dictionaryPageDTO.getFoundDefinition());
         }
         model.addAttribute("foundDefinition", note);
-        model.addAttribute("searchedDefinition", searchedDefinition);
-        model.addAttribute("foundWords", foundWords);
+        model.addAttribute("searchedDefinition", dictionaryPageDTO.getSearchedDefinition());
+        model.addAttribute("foundWords", dictionaryPageDTO.getFoundWords());
 
         return "dictionary";
     }
 
     @PostMapping("/addWord")
-    public String addWord(@ModelAttribute Note note, @RequestParam Integer dictionaryId) {
-        note.setDictionary(dictionaryId);
+    public String addWord(@ModelAttribute Note note) {
+        note.setDictionary(dictionaryPageDTO.getDictionaryId());
         noteService.save(note);
-        return "redirect:/dictionary?dictionaryId=" + dictionaryId;
+        return "redirect:/dictionary/" + dictionaryPageDTO.getDictionaryId();
     }
 
     @DeleteMapping("/deleteWord")
-    public String deleteWord(@RequestParam Integer dictionaryId, @RequestParam int noteId) {
+    public String deleteWord(@RequestParam int noteId) {
         noteService.delete(noteId);
-        return "redirect:/dictionary?dictionaryId=" + dictionaryId;
+        return "redirect:/dictionary/" + dictionaryPageDTO.getDictionaryId();
     }
 
     @GetMapping("/findDefinition")
-    public String findDefinition(@RequestParam Integer dictionaryId, @RequestParam String word) {
+    public String findDefinition(@RequestParam String word) {
+        int dictionaryId = dictionaryPageDTO.getDictionaryId();
         List<Note> notes = noteService.findNote(word, dictionaryId);
         String result;
         if (notes.isEmpty()) {
@@ -90,11 +86,14 @@ public class DictionaryController {
         } else {
             result = notes.stream().map(Note::getDefinition).collect(Collectors.joining(", "));
         }
-        return "redirect:/dictionary?dictionaryId=" + dictionaryId + "&foundWord=" + word + "&foundDefinition=" + result;
+        dictionaryPageDTO.setFoundWord(word);
+        dictionaryPageDTO.setFoundDefinition(result);
+        return "redirect:/dictionary/" + dictionaryId;
     }
 
     @GetMapping("/findWord")
-    public String findWord(@RequestParam Integer dictionaryId, @RequestParam String searchedDefinition, @RequestParam(required = false) boolean allDictionaries) {
+    public String findWord(@RequestParam String searchedDefinition, @RequestParam(required = false) boolean allDictionaries) {
+        int dictionaryId = dictionaryPageDTO.getDictionaryId();
         List<Note> notes;
         if (allDictionaries) {
             notes = noteService.findNoteByDefinition(searchedDefinition);
@@ -107,28 +106,28 @@ public class DictionaryController {
         } else {
             result = notes.stream().map(Note::getWord).collect(Collectors.joining(", "));
         }
-        return "redirect:/dictionary?dictionaryId=" + dictionaryId + "&searchedDefinition=" + searchedDefinition + "&foundWords=" + result;
+        dictionaryPageDTO.setSearchedDefinition(searchedDefinition);
+        dictionaryPageDTO.setFoundWords(result);
+        return "redirect:/dictionary/" + dictionaryId;
     }
 
     @GetMapping("/openEditor")
-    public String editWord(@RequestParam Integer dictionaryId, @RequestParam int editId) {
-        return "redirect:/dictionary?dictionaryId=" + dictionaryId + "&edit=" + true + "&editId=" + editId;
+    public String editWord(@RequestParam int editId) {
+        dictionaryPageDTO.setEdition(true);
+        dictionaryPageDTO.setEditedNoteId(editId);
+        return "redirect:/dictionary/" + dictionaryPageDTO.getDictionaryId();
     }
 
     @PostMapping(value = "/edit", params = "action=save")
-    public String editSave(@RequestParam Integer dictionaryId, @RequestParam int noteId, @RequestParam String editedDefinition, @RequestParam String editedWord, @RequestParam String action) {
-        noteService.update(noteId, editedWord, editedDefinition);
-        return "redirect:/dictionary?dictionaryId=" + dictionaryId;
+    public String editSave(DictionaryPageDTO requestBody) {
+        noteService.update(requestBody.getEditedNoteId(), requestBody.getEditableNote(), requestBody.getEditableDefinition());
+        dictionaryPageDTO.setEdition(false);
+        return "redirect:/dictionary/" + dictionaryPageDTO.getDictionaryId();
     }
 
     @PostMapping(value = "/edit", params = "action=cancel")
-    public String editCancel(@RequestParam Integer dictionaryId, @RequestParam String action) {
-        return "redirect:/dictionary?dictionaryId=" + dictionaryId;
-    }
-
-    @PostMapping(value = "/edit")
-    public String edit() {
-        System.out.println("HERE");
-        return null;
+    public String editCancel() {
+        dictionaryPageDTO.setEdition(false);
+        return "redirect:/dictionary/" + dictionaryPageDTO.getDictionaryId();
     }
 }

@@ -12,7 +12,7 @@
 <p class="subheader">Выберите словарь из списка ниже:</p>
 <div class="block">
     <label>
-        <select th:onchange="'window.location.href = \'' + @{/dictionary} + '?dictionaryId=\' + this.value ' ">
+        <select th:onchange="'window.location.href = \'' + @{/dictionary} + '/\' + this.value ' ">
             <option value="0">Словари</option>
             <option th:each="d : ${dictionaries}" th:text="${d.getTitle()}" th:value="${d.getId()}"></option>
         </select>
