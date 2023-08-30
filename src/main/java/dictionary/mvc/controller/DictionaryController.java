@@ -27,7 +27,8 @@ public class DictionaryController {
         this.validatorService = validatorService;
     }
 
-    private void prepareDictionaryModel(DictionaryPageDTO requestBody, Model model) {
+    @PostMapping("/dictionary")
+    public String dictionaryRequest(DictionaryPageDTO requestBody, Model model) {
         int dictionaryId = requestBody.getDictionaryId();
         Dictionary dictionary = dictionaryService.getDictionary(dictionaryId);
         model.addAttribute("dictionaryId", dictionaryId);
@@ -55,11 +56,6 @@ public class DictionaryController {
         model.addAttribute("foundDefinition", note);
         model.addAttribute("searchedDefinition", requestBody.getSearchedDefinition());
         model.addAttribute("foundWords", requestBody.getFoundWord());
-    }
-
-    @PostMapping("/dictionary")
-    public String dictionaryRequest(DictionaryPageDTO requestBody, Model model) {
-        prepareDictionaryModel(requestBody, model);
         return "dictionary";
     }
 
@@ -67,16 +63,14 @@ public class DictionaryController {
     public String addWord(@ModelAttribute Note note, DictionaryPageDTO requestBody, Model model) {
         note.setDictionary(requestBody.getDictionaryId());
         noteService.save(note);
-        prepareDictionaryModel(requestBody, model);
-        return "dictionary";
+        return dictionaryRequest(requestBody, model);
     }
 
     @DeleteMapping("/deleteWord")
     public String deleteWord(DictionaryPageDTO requestBody, Model model) {
         System.out.println(requestBody);
         noteService.delete(requestBody.getDeletedNoteId());
-        prepareDictionaryModel(requestBody, model);
-        return "dictionary";
+        return dictionaryRequest(requestBody, model);
     }
 
     @GetMapping("/findDefinition")
@@ -92,8 +86,7 @@ public class DictionaryController {
         dictionaryPageDTO.setDictionaryId(dictionaryId);
         dictionaryPageDTO.setSearchedWord(word);
         dictionaryPageDTO.setFoundDefinition(result);
-        prepareDictionaryModel(dictionaryPageDTO, model);
-        return "dictionary";
+        return dictionaryRequest(dictionaryPageDTO, model);
     }
 
     @GetMapping("/findWord")
@@ -114,8 +107,7 @@ public class DictionaryController {
         dictionaryPageDTO.setDictionaryId(dictionaryId);
         dictionaryPageDTO.setSearchedDefinition(searchedDefinition);
         dictionaryPageDTO.setFoundWord(result);
-        prepareDictionaryModel(dictionaryPageDTO, model);
-        return "dictionary";
+        return dictionaryRequest(dictionaryPageDTO, model);
     }
 
     @GetMapping("/openEditor")
@@ -124,8 +116,7 @@ public class DictionaryController {
         dictionaryPageDTO.setDictionaryId(dictionaryId);
         dictionaryPageDTO.setEdition(true);
         dictionaryPageDTO.setEditedNoteId(editedNoteId);
-        prepareDictionaryModel(dictionaryPageDTO, model);
-        return "dictionary";
+        return dictionaryRequest(dictionaryPageDTO, model);
     }
 
     @PostMapping(value = "/edit", params = "action=save")
@@ -135,8 +126,7 @@ public class DictionaryController {
         DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
         dictionaryPageDTO.setDictionaryId(requestBody.getDictionaryId());
         dictionaryPageDTO.setEdition(false);
-        prepareDictionaryModel(dictionaryPageDTO, model);
-        return "dictionary";
+        return dictionaryRequest(dictionaryPageDTO, model);
     }
 
     @PostMapping(value = "/edit", params = "action=cancel")
@@ -144,7 +134,6 @@ public class DictionaryController {
         DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
         dictionaryPageDTO.setDictionaryId(requestBody.getDictionaryId());
         dictionaryPageDTO.setEdition(false);
-        prepareDictionaryModel(dictionaryPageDTO, model);
-        return "dictionary";
+        return dictionaryRequest(dictionaryPageDTO, model);
     }
 }
