@@ -1,7 +1,7 @@
-package dictionary.mvc.model.services;
+package dictionary.mvc.model.service;
 
-import dictionary.mvc.model.entities.Validator;
-import dictionary.mvc.model.repositories.ValidatorRepository;
+import dictionary.mvc.model.entity.Validator;
+import dictionary.mvc.model.repository.ValidatorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

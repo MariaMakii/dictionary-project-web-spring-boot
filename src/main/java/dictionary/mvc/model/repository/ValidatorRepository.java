@@ -1,6 +1,6 @@
-package dictionary.mvc.model.repositories;
+package dictionary.mvc.model.repository;
 
-import dictionary.mvc.model.entities.Validator;
+import dictionary.mvc.model.entity.Validator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

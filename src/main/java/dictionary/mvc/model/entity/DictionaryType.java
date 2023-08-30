@@ -1,4 +1,4 @@
-package dictionary.mvc.model.entities;
+package dictionary.mvc.model.entity;
 
 import lombok.Data;
 
@@ -6,14 +6,12 @@ import javax.persistence.*;
 
 @Data
 @Entity
-public class Validator{
+@Table(name = "type")
+public class DictionaryType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "regex")
-    private String regex;
-
     @Column(name = "type")
-    private Integer type;
+    private String type;
 }

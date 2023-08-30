@@ -1,7 +1,7 @@
-package dictionary.mvc.model.services;
+package dictionary.mvc.model.service;
 
-import dictionary.mvc.model.entities.DictionaryType;
-import dictionary.mvc.model.repositories.DictionaryTypeRepository;
+import dictionary.mvc.model.entity.DictionaryType;
+import dictionary.mvc.model.repository.DictionaryTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

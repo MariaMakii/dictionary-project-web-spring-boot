@@ -16,16 +16,18 @@
     </br>
     <div class="wordContainer" th:each="note : ${notes}">
         <form action="#"
-              th:action="@{/deleteWord(word = ${note.getWord()}, noteId = ${note.getId()}, dictionaryId = ${dictionaryId})}"
+              th:action="@{/deleteWord}"
               th:method="DELETE">
             <input type="hidden" name="_method" value="delete"/>
+            <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
+            <input hidden="hidden" type="text" name="deletedNoteId" th:value="${note.getId()}">
             <button class="btn btn-danger" type="submit" id="delete">x</button>
         </form>
 
         <form action="#" th:action="@{/openEditor}"
               th:method="GET">
             <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
-            <input hidden="hidden" type="text" name="editId" th:value="${note.getId()}">
+            <input hidden="hidden" type="text" name="editedNoteId" th:value="${note.getId()}">
             <button class="btn btn-success" type="submit" id="edit">edit</button>
         </form>
         <p style="list-style-type: none" th:text="|${note.word} - ${note.definition}|"></p>
@@ -38,6 +40,7 @@
         <form th:method="POST"
               th:action="@{/addWord}"
               th:object="${note}">
+            <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
             <label for="word">Введите слово:</label>
             <input th:pattern="${validator}" th:required="true" type="text" id="word" th:field="*{word}">
             </br>

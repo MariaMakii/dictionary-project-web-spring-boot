@@ -1,4 +1,4 @@
-package dictionary.mvc.model.entities;
+package dictionary.mvc.model.entity;
 
 import javax.persistence.*;
 

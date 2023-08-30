@@ -1,7 +1,7 @@
-package dictionary.mvc.model.services;
+package dictionary.mvc.model.service;
 
-import dictionary.mvc.model.entities.Note;
-import dictionary.mvc.model.repositories.NoteRepository;
+import dictionary.mvc.model.entity.Note;
+import dictionary.mvc.model.repository.NoteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,6 +1,6 @@
-package dictionary.mvc.model.repositories;
+package dictionary.mvc.model.repository;
 
-import dictionary.mvc.model.entities.Note;
+import dictionary.mvc.model.entity.Note;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
