@@ -46,7 +46,7 @@ public class NoteService {
     }
 
     public List<Note> findNote(String word, int dictionary) {
-        return repository.findNoteByWord(word, dictionary);
+        return repository.findNotesByWordAndDictionary(word, dictionary);
     }
 
     public List<Note> findNoteByDefinition(String definition, int dictionary) {
