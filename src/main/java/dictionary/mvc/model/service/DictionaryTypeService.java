@@ -14,11 +14,11 @@ public class DictionaryTypeService {
         this.repository = repository;
     }
 
-    public void save(DictionaryType type) {
+    public void saveNewDictionaryType(DictionaryType type) {
         repository.save(type);
     }
 
-    public List<DictionaryType> getAll() {
+    public List<DictionaryType> getAllDictionaryTypes() {
         return repository.findAll();
     }
 }

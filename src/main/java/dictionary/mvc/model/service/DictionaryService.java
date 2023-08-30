@@ -14,11 +14,11 @@ public class DictionaryService {
         this.repository = repository;
     }
 
-    public void save(Dictionary dictionary){
+    public void saveNewDictionary(Dictionary dictionary){
         repository.save(dictionary);
     }
 
-    public List<Dictionary> getAll(){
+    public List<Dictionary> getAllDictionaries(){
         return repository.findAll();
     }
 

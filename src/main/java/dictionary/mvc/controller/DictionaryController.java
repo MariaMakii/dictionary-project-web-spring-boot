@@ -16,9 +16,7 @@ import java.util.stream.Collectors;
 @Controller
 public class DictionaryController {
     private final DictionaryService dictionaryService;
-
     private final NoteService noteService;
-
     private final ValidatorService validatorService;
 
     public DictionaryController(DictionaryService dictionaryService, NoteService noteService, ValidatorService validatorService) {
@@ -28,54 +26,47 @@ public class DictionaryController {
     }
 
     @PostMapping("/dictionary")
-    public String dictionaryRequest(DictionaryPageDTO requestBody, Model model) {
-        int dictionaryId = requestBody.getDictionaryId();
+    public String dictionaryRequest(DictionaryPageDTO dictionaryPageDTO, Model model) {
+        Integer dictionaryId = dictionaryPageDTO.getDictionaryId();
         Dictionary dictionary = dictionaryService.getDictionary(dictionaryId);
         model.addAttribute("dictionaryId", dictionaryId);
         model.addAttribute("dictionaryName", dictionary.getTitle());
         model.addAttribute("validator", validatorService.getValidator(dictionary.getType()).getRegex());
-        model.addAttribute("notes", noteService.getAll(dictionaryId));
-        model.addAttribute("note", new Note());
-        model.addAttribute("edit", requestBody.isEdition());
-        model.addAttribute("editedNoteId", requestBody.getEditedNoteId());
-
-        if (requestBody.getEditedNoteId() != null) {
-            Note note = noteService.getById(requestBody.getEditedNoteId());
-            model.addAttribute("editableNote", note.getWord());
-            model.addAttribute("editableDefinition", note.getDefinition());
-        } else {
-            model.addAttribute("editedWord", "");
-            model.addAttribute("editedDefinition", "");
-        }
+        model.addAttribute("notes", noteService.getAllNotesInDictionary(dictionaryId));
+        model.addAttribute("isEditionFormOpened", dictionaryPageDTO.isEditionFormOpened());
+        model.addAttribute("editedNoteId", dictionaryPageDTO.getEditedNoteId());
 
         Note note = new Note();
-        if (requestBody.getSearchedWord() != null) {
-            note.setWord(requestBody.getSearchedWord());
-            note.setDefinition(requestBody.getFoundDefinition());
+        if (dictionaryPageDTO.getEditedNoteId() != null) {
+            note = noteService.getById(dictionaryPageDTO.getEditedNoteId());
         }
-        model.addAttribute("foundDefinition", note);
-        model.addAttribute("searchedDefinition", requestBody.getSearchedDefinition());
-        model.addAttribute("foundWords", requestBody.getFoundWord());
+
+        model.addAttribute("editedWord", note.getWord());
+        model.addAttribute("editedDefinition", note.getDefinition());
+
+        model.addAttribute("searchedWord", dictionaryPageDTO.getSearchedWord());
+        model.addAttribute("foundDefinition", dictionaryPageDTO.getFoundDefinition());
+        model.addAttribute("searchedDefinition", dictionaryPageDTO.getSearchedDefinition());
+        model.addAttribute("foundWords", dictionaryPageDTO.getFoundWord());
         return "dictionary";
     }
 
     @PostMapping("/addWord")
     public String addWord(@ModelAttribute Note note, DictionaryPageDTO requestBody, Model model) {
         note.setDictionary(requestBody.getDictionaryId());
-        noteService.save(note);
+        noteService.saveNewNote(note);
         return dictionaryRequest(requestBody, model);
     }
 
     @DeleteMapping("/deleteWord")
     public String deleteWord(DictionaryPageDTO requestBody, Model model) {
-        System.out.println(requestBody);
-        noteService.delete(requestBody.getDeletedNoteId());
+        noteService.deleteNoteById(requestBody.getDeletedNoteId());
         return dictionaryRequest(requestBody, model);
     }
 
     @GetMapping("/findDefinition")
-    public String findDefinition(@RequestParam String word, @RequestParam int dictionaryId, Model model) {
-        List<Note> notes = noteService.findNote(word, dictionaryId);
+    public String findDefinition(@RequestParam Integer dictionaryId, @RequestParam String searchedWord, Model model) {
+        List<Note> notes = noteService.findNoteByNameInDictionary(searchedWord, dictionaryId);
         String result;
         if (notes.isEmpty()) {
             result = "Definition not found.";
@@ -84,18 +75,21 @@ public class DictionaryController {
         }
         DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
         dictionaryPageDTO.setDictionaryId(dictionaryId);
-        dictionaryPageDTO.setSearchedWord(word);
+        dictionaryPageDTO.setSearchedWord(searchedWord);
         dictionaryPageDTO.setFoundDefinition(result);
         return dictionaryRequest(dictionaryPageDTO, model);
     }
 
     @GetMapping("/findWord")
-    public String findWord(@RequestParam String searchedDefinition, @RequestParam(required = false) boolean allDictionaries, @RequestParam int dictionaryId, Model model) {
+    public String findWord(@RequestParam Integer dictionaryId,
+                           @RequestParam String searchedDefinition,
+                           @RequestParam(required = false) boolean allDictionaries,
+                           Model model) {
         List<Note> notes;
         if (allDictionaries) {
-            notes = noteService.findNoteByDefinition(searchedDefinition);
+            notes = noteService.findNoteByDefinitionInDictionary(searchedDefinition);
         } else {
-            notes = noteService.findNoteByDefinition(searchedDefinition, dictionaryId);
+            notes = noteService.findNoteByDefinitionInDictionary(searchedDefinition, dictionaryId);
         }
         String result;
         if (notes.isEmpty()) {
@@ -111,21 +105,20 @@ public class DictionaryController {
     }
 
     @GetMapping("/openEditor")
-    public String editWord(@RequestParam int editedNoteId, @RequestParam int dictionaryId, Model model) {
+    public String editWord(@RequestParam Integer dictionaryId, @RequestParam Integer editedNoteId, Model model) {
         DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
         dictionaryPageDTO.setDictionaryId(dictionaryId);
-        dictionaryPageDTO.setEdition(true);
+        dictionaryPageDTO.setEditionFormOpened(true);
         dictionaryPageDTO.setEditedNoteId(editedNoteId);
         return dictionaryRequest(dictionaryPageDTO, model);
     }
 
     @PostMapping(value = "/edit", params = "action=save")
     public String editSave(DictionaryPageDTO requestBody, Model model) {
-        System.out.println(requestBody);
-        noteService.update(requestBody.getEditedNoteId(), requestBody.getEditableNote(), requestBody.getEditableDefinition());
+        noteService.updateNoteById(requestBody.getEditedNoteId(), requestBody.getEditedWord(), requestBody.getEditedDefinition());
         DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
         dictionaryPageDTO.setDictionaryId(requestBody.getDictionaryId());
-        dictionaryPageDTO.setEdition(false);
+        dictionaryPageDTO.setEditionFormOpened(false);
         return dictionaryRequest(dictionaryPageDTO, model);
     }
 
@@ -133,7 +126,7 @@ public class DictionaryController {
     public String editCancel(DictionaryPageDTO requestBody, Model model) {
         DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
         dictionaryPageDTO.setDictionaryId(requestBody.getDictionaryId());
-        dictionaryPageDTO.setEdition(false);
+        dictionaryPageDTO.setEditionFormOpened(false);
         return dictionaryRequest(dictionaryPageDTO, model);
     }
 }

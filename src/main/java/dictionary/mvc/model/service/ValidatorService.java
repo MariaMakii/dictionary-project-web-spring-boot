@@ -14,7 +14,7 @@ public class ValidatorService {
         this.repository = repository;
     }
 
-    public List<Validator> getAll(){
+    public List<Validator> getAllValidators(){
         return repository.findAll();
     }
 
@@ -22,7 +22,7 @@ public class ValidatorService {
         return repository.getValidatorByType(type);
     }
 
-    public void save(Validator validator){
+    public void saveNewValidator(Validator validator){
         repository.save(validator);
     }
 }

@@ -15,45 +15,46 @@ public class NoteService {
         this.repository = repository;
     }
 
-    public void save(Note note) {
+    public void saveNewNote(Note note) {
         repository.save(note);
     }
 
-    public List<Note> getAll() {
+    public List<Note> getAllNotes() {
         return repository.findAll();
     }
 
-    public List<Note> getAll(int dictionary) {
+    public List<Note> getAllNotesInDictionary(Integer dictionary) {
         return repository.findNotesByDictionary(dictionary);
     }
 
-    public Note getById(int id) {
+    public Note getById(Integer id) {
         return repository.getNoteById(id);
     }
 
-    public void delete(int id) {
+    @Transactional
+    public void deleteNoteById(Integer id) {
         repository.deleteById(id);
     }
 
     @Transactional
-    public void delete(String word) {
+    public void deleteNoteByWord(String word) {
         repository.deleteByWord(word);
     }
 
     @Transactional
-    public void update(int id, String word, String definition) {
+    public void updateNoteById(Integer id, String word, String definition) {
         repository.update(id, word, definition);
     }
 
-    public List<Note> findNote(String word, int dictionary) {
+    public List<Note> findNoteByNameInDictionary(String word, Integer dictionary) {
         return repository.findNotesByWordAndDictionary(word, dictionary);
     }
 
-    public List<Note> findNoteByDefinition(String definition, int dictionary) {
+    public List<Note> findNoteByDefinitionInDictionary(String definition, Integer dictionary) {
         return repository.findNoteByDefinition(definition, dictionary);
     }
 
-    public List<Note> findNoteByDefinition(String definition) {
+    public List<Note> findNoteByDefinitionInDictionary(String definition) {
         return repository.findNoteByDefinition(definition);
     }
 }

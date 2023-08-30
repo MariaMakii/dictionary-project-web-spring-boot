@@ -15,7 +15,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String homePage(Model model) {
-        model.addAttribute("dictionaries", dictionaryService.getAll());
+        model.addAttribute("dictionaries", dictionaryService.getAllDictionaries());
         return "home";
     }
 }

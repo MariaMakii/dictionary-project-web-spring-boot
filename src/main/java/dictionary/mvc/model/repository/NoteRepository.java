@@ -13,20 +13,20 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
 
     List<Note> findNotesByDictionary(Integer dictionary);
 
-    List<Note> findNotesByWordAndDictionary(String word, int dictionary);
+    List<Note> findNotesByWordAndDictionary(String word, Integer dictionary);
 
     @Modifying
     void deleteByWord(String word);
 
     @Query("FROM Note WHERE definition LIKE CONCAT('%', ?1, '%') AND dictionary = ?2")
-    List<Note> findNoteByDefinition(String definition, int dictionary);
+    List<Note> findNoteByDefinition(String definition, Integer dictionary);
 
     @Query("FROM Note WHERE definition LIKE CONCAT('%', ?1, '%')")
     List<Note> findNoteByDefinition(String definition);
 
-    Note getNoteById(int id);
+    Note getNoteById(Integer id);
 
     @Modifying
     @Query("UPDATE Note SET word = ?2, definition = ?3 WHERE id = ?1")
-    void update(int id, String word, String definition);
+    void update(Integer id, String word, String definition);
 }
