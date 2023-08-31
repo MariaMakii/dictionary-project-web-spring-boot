@@ -20,4 +20,7 @@ public class DictionaryPageDTO {
     private String editedDefinition;
 
     private Integer deletedNoteId;
+
+    private String newWord;
+    private String newDefinition;
 }

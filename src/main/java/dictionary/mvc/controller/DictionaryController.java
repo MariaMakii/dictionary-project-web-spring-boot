@@ -6,10 +6,14 @@ import dictionary.mvc.model.entity.Note;
 import dictionary.mvc.model.service.DictionaryService;
 import dictionary.mvc.model.service.NoteService;
 import dictionary.mvc.model.service.ValidatorService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,16 +56,24 @@ public class DictionaryController {
     }
 
     @PostMapping("/addWord")
-    public String addWord(@ModelAttribute Note note, DictionaryPageDTO requestBody, Model model) {
+    public ModelAndView addWord(DictionaryPageDTO requestBody, HttpServletRequest servletRequest) {
+        Note note = new Note();
+        note.setWord(requestBody.getNewWord());
+        note.setDefinition(requestBody.getNewDefinition());
         note.setDictionary(requestBody.getDictionaryId());
         noteService.saveNewNote(note);
-        return dictionaryRequest(requestBody, model);
+
+        servletRequest.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
+        servletRequest.setAttribute("dictionaryPageDTO", requestBody);
+        return new ModelAndView("redirect:/dictionary");
     }
 
-    @DeleteMapping("/deleteWord")
-    public String deleteWord(DictionaryPageDTO requestBody, Model model) {
+    @PostMapping("/deleteWord")
+    public ModelAndView deleteWord(DictionaryPageDTO requestBody, HttpServletRequest servletRequest) {
         noteService.deleteNoteById(requestBody.getDeletedNoteId());
-        return dictionaryRequest(requestBody, model);
+        servletRequest.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
+        servletRequest.setAttribute("dictionaryPageDTO", requestBody);
+        return new ModelAndView("redirect:/dictionary");
     }
 
     @GetMapping("/findDefinition")
@@ -79,6 +91,7 @@ public class DictionaryController {
         dictionaryPageDTO.setFoundDefinition(result);
         return dictionaryRequest(dictionaryPageDTO, model);
     }
+
 
     @GetMapping("/findWord")
     public String findWord(@RequestParam Integer dictionaryId,
@@ -113,20 +126,21 @@ public class DictionaryController {
         return dictionaryRequest(dictionaryPageDTO, model);
     }
 
+
     @PostMapping(value = "/edit", params = "action=save")
-    public String editSave(DictionaryPageDTO requestBody, Model model) {
+    public ModelAndView editSave(DictionaryPageDTO requestBody, HttpServletRequest servletRequest) {
         noteService.updateNoteById(requestBody.getEditedNoteId(), requestBody.getEditedWord(), requestBody.getEditedDefinition());
-        DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
-        dictionaryPageDTO.setDictionaryId(requestBody.getDictionaryId());
-        dictionaryPageDTO.setEditionFormOpened(false);
-        return dictionaryRequest(dictionaryPageDTO, model);
+        requestBody.setEditionFormOpened(false);
+        servletRequest.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
+        servletRequest.setAttribute("dictionaryPageDTO", requestBody);
+        return new ModelAndView("redirect:/dictionary");
     }
 
     @PostMapping(value = "/edit", params = "action=cancel")
-    public String editCancel(DictionaryPageDTO requestBody, Model model) {
-        DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
-        dictionaryPageDTO.setDictionaryId(requestBody.getDictionaryId());
-        dictionaryPageDTO.setEditionFormOpened(false);
-        return dictionaryRequest(dictionaryPageDTO, model);
+    public ModelAndView editCancel(DictionaryPageDTO requestBody, HttpServletRequest servletRequest) {
+        requestBody.setEditionFormOpened(false);
+        servletRequest.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
+        servletRequest.setAttribute("dictionaryPageDTO", requestBody);
+        return new ModelAndView("redirect:/dictionary");
     }
 }

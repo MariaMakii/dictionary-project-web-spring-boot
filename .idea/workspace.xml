@@ -10,16 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8969d2e4-4a1f-4369-adb7-04cfbb967dd8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/dto/TestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/test.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controller/DictionaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controller/DictionaryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controller/HomeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/dto/DictionaryPageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/dto/DictionaryPageDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/repository/NoteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/repository/NoteRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/DictionaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/DictionaryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/DictionaryTypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/DictionaryTypeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/NoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/NoteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/ValidatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/ValidatorService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/dictionary.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/dictionary.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,9 +26,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Enum" />
-        <option value="HTML File" />
         <option value="Interface" />
         <option value="CSS File" />
+        <option value="HTML File" />
         <option value="Class" />
       </list>
     </option>
@@ -142,7 +137,8 @@
       <workItem from="1693204040505" duration="8330000" />
       <workItem from="1693215492719" duration="3869000" />
       <workItem from="1693291129869" duration="17153000" />
-      <workItem from="1693376937114" duration="14591000" />
+      <workItem from="1693376937114" duration="16034000" />
+      <workItem from="1693463314909" duration="13766000" />
     </task>
     <servers />
   </component>

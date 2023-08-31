@@ -17,8 +17,7 @@
     <div class="wordContainer" th:each="note : ${notes}">
         <form action="#"
               th:action="@{/deleteWord}"
-              th:method="DELETE">
-            <input type="hidden" name="_method" value="delete"/>
+              th:method="POST">
             <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
             <input hidden="hidden" type="text" name="deletedNoteId" th:value="${note.getId()}">
             <button class="btn btn-danger" type="submit" id="delete">x</button>
@@ -41,10 +40,10 @@
               th:action="@{/addWord}">
             <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
             <label for="word">Введите слово:</label>
-            <input th:pattern="${validator}" th:required="true" type="text" id="word" th:name="word">
+            <input th:pattern="${validator}" th:required="true" type="text" id="word" th:name="newWord">
             </br>
             <label for="def">Введите определение:</label>
-            <input th:required="true" type="text" id="def" th:name="definition">
+            <input th:required="true" type="text" id="def" th:name="newDefinition">
             </br>
             <input type="submit" value="Добавить">
         </form>
@@ -56,11 +55,11 @@
                 th:method="GET"
                 th:action="@{/findDefinition}">
             <input hidden="hidden" type="text" name="dictionaryId" th:value="${dictionaryId}">
-            <label for="searchedWord">Введите слово:</label>
+            <label for="searchedDefinition">Введите слово:</label>
             <input th:required="true" type="text" th:name="searchedWord" th:value="${searchedWord}"
                    id="searchedWord">
             </br>
-            <label for="foundDefinition">Определение:</label>
+            <label for="foundWords">Определения:</label>
             <input readonly th:name="foundDefinition" th:value="${foundDefinition}" id="foundDefinition">
             </br>
             <input type="submit" value="Поиск">
