@@ -11,7 +11,7 @@
 <h1>Добро пожаловать в Словарный менеджер!!</h1>
 <p class="subheader">Выберите словарь из списка ниже:</p>
 <div class="block">
-    <form th:action="@{/dictionary}" th:method="POST">
+    <form th:action="@{/openDictionary}" th:method="POST">
     <label>
         <select name="dictionaryId" th:onchange="this.form.submit()">
             <option value="0">Словари</option>
