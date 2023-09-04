@@ -10,9 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8969d2e4-4a1f-4369-adb7-04cfbb967dd8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controller/DictionaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/controller/DictionaryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/repository/NoteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/repository/NoteRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/NoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dictionary/mvc/model/service/NoteService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +138,9 @@
       <workItem from="1693291129869" duration="17153000" />
       <workItem from="1693376937114" duration="16034000" />
       <workItem from="1693463314909" duration="17012000" />
-      <workItem from="1693549226691" duration="1486000" />
+      <workItem from="1693549226691" duration="8844000" />
+      <workItem from="1693807597167" duration="1057000" />
+      <workItem from="1693828838526" duration="1862000" />
     </task>
     <servers />
   </component>

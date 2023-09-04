@@ -70,7 +70,7 @@ public class DictionaryController {
 
     @PostMapping("/deleteWord")
     public String deleteWord(DictionaryPageDTO requestBody, RedirectAttributes redirectAttributes) {
-        noteService.deleteNoteById(requestBody.getDeletedNoteId());
+        noteService.checkIfExistsAndDeleteNoteById(requestBody.getDeletedNoteId());
         redirectAttributes.addFlashAttribute("DictionaryPageDTOFlash", requestBody);
         return "redirect:/dictionary/" + requestBody.getDictionaryId();
     }
@@ -95,10 +95,10 @@ public class DictionaryController {
 
 
     @GetMapping("/findWord")
-    public String findWord(@RequestParam Integer dictionaryId,
-                           @RequestParam String searchedDefinition,
-                           @RequestParam(required = false) boolean allDictionaries,
-                           RedirectAttributes redirectAttributes) {
+    public String findWordRequest(@RequestParam Integer dictionaryId,
+                                  @RequestParam String searchedDefinition,
+                                  @RequestParam(required = false) boolean allDictionaries,
+                                  RedirectAttributes redirectAttributes) {
         List<Note> notes;
         if (allDictionaries) {
             notes = noteService.findNoteByDefinitionInDictionary(searchedDefinition);
@@ -120,26 +120,34 @@ public class DictionaryController {
     }
 
     @GetMapping("/openEditor")
-    public String editWord(@RequestParam Integer dictionaryId, @RequestParam Integer editedNoteId, RedirectAttributes redirectAttributes) {
+    public String openEditionFormRequest(@RequestParam Integer dictionaryId, @RequestParam Integer editedNoteId, RedirectAttributes redirectAttributes) {
         DictionaryPageDTO dictionaryPageDTO = new DictionaryPageDTO();
         dictionaryPageDTO.setDictionaryId(dictionaryId);
-        dictionaryPageDTO.setEditionFormOpened(true);
-        dictionaryPageDTO.setEditedNoteId(editedNoteId);
+        if (noteService.isNoteExistsById(editedNoteId)) {
+            dictionaryPageDTO.setEditionFormOpened(true);
+            dictionaryPageDTO.setEditedNoteId(editedNoteId);
+        } else {
+            dictionaryPageDTO.setEditionFormOpened(false);
+        }
         redirectAttributes.addFlashAttribute("DictionaryPageDTOFlash", dictionaryPageDTO);
         return "redirect:/dictionary/" + dictionaryId;
     }
 
 
     @PostMapping(value = "/edit", params = "action=save")
-    public String editSave(DictionaryPageDTO requestBody, RedirectAttributes redirectAttributes) {
-        noteService.updateNoteById(requestBody.getEditedNoteId(), requestBody.getEditedWord(), requestBody.getEditedDefinition());
+    public String saveEditedNoteRequest(DictionaryPageDTO requestBody, RedirectAttributes redirectAttributes) {
+        if (!noteService.isNoteExistsById(requestBody.getEditedNoteId())) {
+            requestBody.setEditedNoteId(null);
+        } else {
+            noteService.checkIfExistsAndUpdateNoteById(requestBody.getEditedNoteId(), requestBody.getEditedWord(), requestBody.getEditedDefinition());
+        }
         requestBody.setEditionFormOpened(false);
         redirectAttributes.addFlashAttribute("DictionaryPageDTOFlash", requestBody);
         return "redirect:/dictionary/" + requestBody.getDictionaryId();
     }
 
     @PostMapping(value = "/edit", params = "action=cancel")
-    public String editCancel(DictionaryPageDTO requestBody, RedirectAttributes redirectAttributes) {
+    public String canselEditionRequest(DictionaryPageDTO requestBody, RedirectAttributes redirectAttributes) {
         requestBody.setEditionFormOpened(false);
         redirectAttributes.addFlashAttribute("DictionaryPageDTOFlash", requestBody);
         return "redirect:/dictionary/" + requestBody.getDictionaryId();

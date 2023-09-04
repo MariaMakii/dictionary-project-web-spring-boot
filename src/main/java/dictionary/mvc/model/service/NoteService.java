@@ -31,8 +31,19 @@ public class NoteService {
         return repository.getNoteById(id);
     }
 
+    public boolean isNoteExistsById(Integer noteId) {
+        return repository.existsById(noteId);
+    }
+
     @Transactional
-    public void deleteNoteById(Integer id) {
+    public void checkIfExistsAndDeleteNoteById(Integer noteId) {
+        if (isNoteExistsById(noteId)) {
+            deleteNoteById(noteId);
+        }
+    }
+
+    @Transactional
+    private void deleteNoteById(Integer id) {
         repository.deleteById(id);
     }
 
@@ -42,7 +53,14 @@ public class NoteService {
     }
 
     @Transactional
-    public void updateNoteById(Integer id, String word, String definition) {
+    public void checkIfExistsAndUpdateNoteById(Integer id, String word, String definition) {
+        if (isNoteExistsById(id)) {
+            updateNoteById(id, word, definition);
+        }
+    }
+
+    @Transactional
+    private void updateNoteById(Integer id, String word, String definition) {
         repository.update(id, word, definition);
     }
 

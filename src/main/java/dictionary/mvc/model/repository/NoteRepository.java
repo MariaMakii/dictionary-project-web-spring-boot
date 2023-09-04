@@ -15,7 +15,7 @@ public interface NoteRepository extends JpaRepository<Note, Integer> {
 
     List<Note> findNotesByWordAndDictionary(String word, Integer dictionary);
 
-    @Modifying
+
     void deleteByWord(String word);
 
     @Query("FROM Note WHERE definition LIKE CONCAT('%', ?1, '%') AND dictionary = ?2")
